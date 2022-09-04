@@ -41,12 +41,13 @@
     # saves.ini
 
         [Player4:Player3]
-        turns = ---OX----
+        turns = 0,2|4
 
         [Player4:#2]
-        turns = -XX-OX--O
+        turns = 2,5,1|4,8
 
         [#1:Player3]
-        turns = X-X-O----
+        turns = 4|6
+
 
 

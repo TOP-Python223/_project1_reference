@@ -4,3 +4,6 @@
 
 
 # глобальные переменные модуля
+STATS = {'Player1': {'wins': 2, 'ties': 0, 'fails': 0, 'training': True}}
+
+

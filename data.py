@@ -16,6 +16,11 @@ saves_path = SCRIPT_DIR / 'saves.ini'
 STATS = {}
 SAVES = {}
 
+DIM = 3
+
+PLAYERS = ()
+TOKENS = ('X', 'O')
+
 
 def read_ini() -> bool:
     """Читает из файлов данные и заполняет структуры данных."""

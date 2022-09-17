@@ -65,3 +65,12 @@ def save_ini():
 
 def get_player_name():
     pass
+
+
+if __name__ == '__main__':
+    print(read_ini())
+    print()
+    pprint(STATS)
+    print()
+    pprint(SAVES)
+    print()

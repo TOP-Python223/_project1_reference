@@ -1,81 +1,51 @@
-"""Дополнительный модуль: работа с данными и файлами данных."""
+"""Дополнительный модуль: глобальные переменные и константы."""
 
 # импорт из стандартной библиотеки
-from itertools import zip_longest
-from pathlib import Path
-from pprint import pprint
-from sys import path
-from configparser import ConfigParser
+from typing import Sequence
+from numbers import Real
 
 
-# глобальные переменные модуля
-SCRIPT_DIR = Path(path[0])
-players_path = SCRIPT_DIR / 'players.ini'
-saves_path = SCRIPT_DIR / 'saves.ini'
-
+# глобальные переменные данных
 STATS = {}
 SAVES = {}
 
-DIM = 3
-
 PLAYERS = ()
+
+DIM = 3
+RANGE = range(DIM)
+
+TURNS = [[0]*DIM for _ in RANGE]
+
+
+# глобальные переменные типов для аннотаций
+Series = Sequence[Real | str]
+Matrix = Sequence[Series]
+TurnCoords = tuple[int, int]
+Score = tuple[dict, dict]
+
+
+# глобальные константы
+APP_TITLE = 'Крестики-Нолики'
+PROMPT = ' > '
+
+BOT_NAME_EASY = '#1'
+BOT_NAME_HARD = '#2'
+
 TOKENS = ('X', 'O')
+WEIGHTS = (1.5, 1)
 
+COMMANDS = {
+    'добавить нового игрока': ('player', 'новый', 'p', 'н'),
+    'выбрать другого игрока': ('another', 'другой', 'a', 'д'),
+    'начать новую партию': ('game', 'партия', 'g', 'п'),
+    'загрузить партию': ('load', 'загрузка', 'l', 'з'),
+    'отобразить статистику': ('stats', 'таблица', 's', 'т'),
+    'изменить размер поля': ('dim', 'размер', 'd', 'р'),
+    'показать справку': ('help', 'справка', 'h', 'с'),
+    'включить режим обучения': ('training', 'обучение', 't', 'о'),
+    'выйти из игры': ('quit', 'выход', 'q', 'в'),
+}
 
-def read_ini() -> bool:
-    """Читает из файлов данные и заполняет структуры данных."""
-    players = ConfigParser()
-    players.read(players_path)
-    for player in players.sections():
-        stats = players[player]
-        STATS[player] = {
-            k: int(v) if v.isdecimal() else stats.getboolean(k)
-            for k, v in stats.items()
-        }
-    saves = ConfigParser()
-    saves.read(saves_path)
-    for players in saves.sections():
-        save = saves[players]
-        all_turns = [
-            part.split(',')
-            for part in save['turns'].split('|')
-        ]
-        turns = []
-        for x, o in zip_longest(*all_turns):
-            try:
-                turns += [int(x), int(o)]
-            except TypeError:
-                turns += [int(x)]
-        list_field = [0]*9
-        for i in range(9):
-            try:
-                list_field[i] = turns.index(i) + 1
-            except ValueError:
-                list_field[i] = 0
-        list_field = [
-            [list_field[j] for j in range(i, i+3)]
-            for i in range(0, 9, 3)
-        ]
-        SAVES[tuple(players.split(':'))] = list_field
-    # первый ли запуск
-    if STATS:
-        return False
-    else:
-        return True
+TRAINING_MESSAGES = {
 
-
-def save_ini():
-    pass
-
-
-def get_player_name():
-    pass
-
-
-if __name__ == '__main__':
-    print(read_ini())
-    print()
-    pprint(STATS)
-    print()
-    pprint(SAVES)
-    print()
+}
